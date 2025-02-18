@@ -1,0 +1,77 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.labelPosition__right {
+  flex-direction: row-reverse;
+  display: flex;
+  align-items: center;
+}
+
+.labelPosition__bottom {
+  flex-direction: column-reverse;
+  display: flex;
+}
+
+.labelPosition__left {
+  flex-direction: row;
+  display: flex;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+}
+
+.input_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.input {
+  padding: 15px 40px 12px 14px;
+}
+
+.input_hint {
+  line-height: 16px;
+  align-self: flex-start;
+  color: #ff4550;
+}
+
+.labelPosition__right .input_icon {
+  top: 8px;
+  right: 10px;
+}
+
+.labelPosition__bottom .input_icon {
+  top: 8px;
+  right: 10px;
+}
+
+.wrapperError .input {
+  border-color: #ff4550;
+}
+
+.wrapperError .input::placeholder {
+  color: #ff4550;
+}
+
+.wrapperError .input_hint {
+  color: #ff4550;
+}
+
+.wrapperSuccess .input {
+  border-color: #4cbc9a;
+}
+
+.wrapperSuccess .input::placeholder {
+  color: #4cbc9a;
+}
+
+.wrapperSuccess .input_hint {
+  color: #4cbc9a;
+}
+
