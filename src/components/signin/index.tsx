@@ -9,15 +9,15 @@ interface IErrors {
 }
 
 interface ISigninProps {
-  onSubmit: (formData: { email: string; password: string }) => void;
+  onSubmit: (formData: { email: string; pass: string }) => void;
 }
 
 export const Signin = ({ onSubmit }: ISigninProps) => {
-  const emailRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const [errors, setErrors] = useState<IErrors>({
     emailError: "",
-    passError: "",
+    passError: ""
   });
 
   useEffect(() => {
@@ -32,9 +32,12 @@ export const Signin = ({ onSubmit }: ISigninProps) => {
     if (!emailRef.current || !passRef.current) return;
 
     const email = emailRef.current.value.trim();
-    const password = passRef.current.value.trim();
+    const pass = passRef.current.value.trim();
 
-    setErrors({ emailError: "", passError: "" });
+    setErrors({
+      emailError: "",
+      passError: ""
+    });
 
     if (!email) {
       setErrors((prev) => ({
@@ -49,13 +52,13 @@ export const Signin = ({ onSubmit }: ISigninProps) => {
       }));
     }
    
-    if (!password) {
+    if (!pass) {
       setErrors((prev) => ({
         ...prev,
         passError: "Пожалуйста, введите пароль.",
       }));
     }
-    if (password.length < 6) {
+    if (pass.length < 6) {
       setErrors((prev) => ({
         ...prev,
         passError: "Пароль должен содержать минимум 6 символов.",
@@ -64,7 +67,7 @@ export const Signin = ({ onSubmit }: ISigninProps) => {
 
     if (errors.emailError !== "" && errors.passError !== "") return;
 
-    onSubmit({ email, password });
+    onSubmit({ email, pass });
   };
 
   return (
@@ -75,8 +78,7 @@ export const Signin = ({ onSubmit }: ISigninProps) => {
         type="email"
         ref={emailRef}
         isError={errors.emailError !== ""}
-        isSuccess={errors.passError === ""}
-        hint={errors.emailError || "Успешно!"}
+        hint={errors.emailError || " "}
       />
       <Input
         label="Пароль"
@@ -84,10 +86,9 @@ export const Signin = ({ onSubmit }: ISigninProps) => {
         type="password"
         ref={passRef}
         isError={errors.passError !== ""}
-        isSuccess={errors.passError === ""}
-        hint={errors.passError || "Успешно!"}
+        hint={errors.passError || " "}
       />
-      <button type="submit">Войти</button>
+      <button type="submit">submit</button>
     </form>
   );
 };
