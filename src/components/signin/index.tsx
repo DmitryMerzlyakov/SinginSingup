@@ -2,23 +2,22 @@ import { useEffect, useRef, useState } from "react";
 import { Input } from "..";
 
 import styles from "./style.module.css";
-
-interface IErrors {
-  emailError: string;
-  passError: string;
-}
+import { IDataSignIn, IDataSignUp, TSigninErrors, TSignupErrors } from "../../models/interface";
+import { handleSubmit } from "../../hooks/formValid";
 
 interface ISigninProps {
-  onSubmit: (formData: { email: string; pass: string }) => void;
+  onSubmit: (data: IDataSignIn) => void;
+}
+
+const initialErrors: TSigninErrors = {
+  emailError: "",
+  passError: ""
 }
 
 export const Signin = ({ onSubmit }: ISigninProps) => {
   const passRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const [errors, setErrors] = useState<IErrors>({
-    emailError: "",
-    passError: ""
-  });
+  const [errors, setErrors] = useState<TSigninErrors>(initialErrors);
 
   useEffect(() => {
     if (emailRef.current) {
@@ -26,52 +25,26 @@ export const Signin = ({ onSubmit }: ISigninProps) => {
     }
   }, []);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSingInSubmit = (event: React.FormEvent) => {
+    const email = (emailRef.current?.value || "").trim();
+    const pass = (passRef.current?.value || "").trim();
 
-    if (!emailRef.current || !passRef.current) return;
-
-    const email = emailRef.current.value.trim();
-    const pass = passRef.current.value.trim();
-
-    setErrors({
-      emailError: "",
-      passError: ""
-    });
-
-    if (!email) {
-      setErrors((prev) => ({
-        ...prev,
-        emailError: "Пожалуйста, введите email.",
-      }));
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setErrors((prev) => ({
-        ...prev,
-        emailError: `Адреc ${email} некорректен`,
-      }));
-    }
-   
-    if (!pass) {
-      setErrors((prev) => ({
-        ...prev,
-        passError: "Пожалуйста, введите пароль.",
-      }));
-    }
-    if (pass.length < 6) {
-      setErrors((prev) => ({
-        ...prev,
-        passError: "Пароль должен содержать минимум 6 символов.",
-      }));
-    }
-
-    if (errors.emailError !== "" && errors.passError !== "") return;
-
-    onSubmit({ email, pass });
+    handleSubmit<"singin", TSignupErrors, IDataSignUp>(
+      event,
+      "singin",
+      { email, pass },
+      (errors: TSigninErrors) => setErrors(errors),
+      (formData: IDataSignIn) => {
+        onSubmit({
+          email: formData.email,
+          pass: formData.pass,
+        });
+      }
+    );
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSingInSubmit}>
       <Input
         label="Почта"
         inputPlaceholder="Введите почту"

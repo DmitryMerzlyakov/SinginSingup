@@ -1,24 +1,12 @@
 import React from "react";
-import classNames from "classnames";
 
 import styles from "./styles.module.css";
+import classNames from "classnames";
 
 export type TLabelPosition = "bottom" | "left" | "right" | "top";
 export type TIconPosition = "end" | "start";
 
 export interface IInputProps {
-  /**
-   * autoFocus prop
-   * */
-  autoFocus?: boolean;
-  /**
-   * className prop
-   * */
-  className?: string;
-  /**
-   * If 'true' the input will be disabled
-   * */
-  disabled?: boolean;
   /**
    * The input's hint
    * */
@@ -30,18 +18,6 @@ export interface IInputProps {
   /**
    * Label's icon
    * */
-  iconLabel?: React.ReactNode;
-  /**
-   * Placeholder's icon
-   * */
-  iconPlaceholder?: React.ReactNode;
-  /**
-   * The icon position (default position 'end')
-   * */
-  iconPosition?: TIconPosition;
-  /**
-   * Component id
-   * */
   id?: string;
   /**
    * The input's placeholder
@@ -51,10 +27,6 @@ export interface IInputProps {
    * If 'true' the input border and the input hint will change color
    * */
   isError?: boolean;
-  /**
-   * If 'true' the input hint will change color
-   * */
-  isSuccess?: boolean;
   /**
    * The label for the input
    * */
@@ -83,11 +55,7 @@ export interface IInputProps {
 
 export const Input = (
   {
-    autoFocus = false,
     isError = false,
-    isSuccess = false,
-    iconPlaceholder,
-    iconPosition = "end",
     type = "text",
     value,
     labelPosition = "top",
@@ -95,11 +63,8 @@ export const Input = (
     label,
     hint,
     inputPlaceholder,
-    className,
-    iconLabel,
     id,
     name,
-    disabled,
     ref
   }: IInputProps
 ) => {
@@ -108,25 +73,19 @@ export const Input = (
       className={classNames(
         styles.wrapper,
         isError && styles.wrapperError,
-        isSuccess && styles.wrapperSuccess,
         styles[`labelPosition__${labelPosition}`],
-        styles[`iconPosition__${iconPosition}`],
         !label && styles.labelHidden,
         !hint && styles.hintHidden,
-        className
       )}
     >
       {label && (
         <label className={styles.label} htmlFor={id}>
           <p className={styles.label_text}>{label}</p>
-          <span className={styles.label_icon}>{iconLabel}</span>
         </label>
       )}
       <div className={styles.input_wrapper}>
         <input
-          autoFocus={autoFocus}
           className={styles.input}
-          disabled={disabled}
           name={name}
           id={id}
           onChange={onChange}
@@ -135,17 +94,9 @@ export const Input = (
           value={value}
           ref={ref}
         />
-        <span className={styles.input_icon}>{iconPlaceholder}</span>
-        {hint && (
-          <span
-            className={classNames(
-              styles.input_hint,
-              isSuccess && styles.input_hint__success
-            )}
-          >
-            {hint}
-          </span>
-        )}
+        {hint && 
+          <span className={styles.input_hint}>{hint}</span>
+        }
       </div>
     </div>
   );

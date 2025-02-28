@@ -62,16 +62,3 @@
 .wrapperError .input_hint {
   color: #ff4550;
 }
-
-.wrapperSuccess .input {
-  border-color: #4cbc9a;
-}
-
-.wrapperSuccess .input::placeholder {
-  color: #4cbc9a;
-}
-
-.wrapperSuccess .input_hint {
-  color: #4cbc9a;
-}
-
